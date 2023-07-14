@@ -18,6 +18,6 @@ Local Testing: docker-compose up
 Analyze container logs after restart and search for 'udaf' -- If present, there will be a line with the name of the function created.
 
 ## More Reading
-[How to create a udf](https://docs.ksqldb.io/en/latest/how-to-guides/create-a-user-defined-function/#add-the-uberjar-to-ksqldb-server)
+[How to Create/Deploy an UDF](https://docs.ksqldb.io/en/latest/how-to-guides/create-a-user-defined-function/#add-the-uberjar-to-ksqldb-server)
 
 [UDF reference guide](https://docs.ksqldb.io/en/latest/reference/user-defined-functions/)
