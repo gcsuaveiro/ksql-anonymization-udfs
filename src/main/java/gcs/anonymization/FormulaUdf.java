@@ -1,4 +1,4 @@
-package com.example;
+package gcs.anonymization;
 
 import io.confluent.ksql.function.udf.Udf;
 import io.confluent.ksql.function.udf.UdfDescription;
