@@ -1,7 +1,7 @@
 package gcs.anonymization;
 
 public interface FlowInterface {
-    public String getContents();
+    public String getContents(String message);
 
 
 }
