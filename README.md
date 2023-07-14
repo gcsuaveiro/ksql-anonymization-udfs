@@ -10,6 +10,7 @@ gradle shadowJar
 ### How to deploy a created UDF?
 
 Helk: Copy the Jar created above to helk's /docker/helk-ksql/udfs folder. Restart container to import created function to Ksql (Hot Reloading is NOT supported.)
+
 Local Testing: docker-compose up
 
 ### How to check if UDF was correctly imported?
