@@ -1,7 +1,7 @@
 # ksql-anonymization-udfs
 
 ## How-To's
-### How to build the UDF Jar
+### How to build the UDF Jar?
 ```
 gradle shadowJar
 ```
