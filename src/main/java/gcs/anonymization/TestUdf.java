@@ -24,11 +24,13 @@ public class TestUdf implements Configurable,FlowInterface {
     @Udf(description = "Test implementation")
     public String testFilter(@UdfParameter String message){
         System.out.println("UDF RECEIVED: "+message);
-        return message;
+        return message+"AAAAAAAAAAAAAAAAAAAA";
     }
 
+
+
     @Override
-    public String getContents(String message){
+        public String getContents(String message){
         // Maybe here we verify what topic this came from? Validate content?
         return "Not Implemented";
     }

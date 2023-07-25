@@ -13,11 +13,22 @@ public class Filters {
         // Doesn't catch ports -- Likely won't need to be removed.
         String regex = "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b";
         String replacement = "x.x.x.x";
+        StringBuilder modifiedMessage = new StringBuilder();
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
 
-        return matcher.replaceAll(replacement);
+        // This one removes by replacing with x.x.x.x
+       // return matcher.replaceAll(replacement);
+
+        // this one hashes them
+        while (matcher.find()) {
+            String ipAddress = matcher.group();
+            String hashedIP = hashThisString(ipAddress);
+            matcher.appendReplacement(modifiedMessage, String.valueOf(hashedIP));        }
+
+        matcher.appendTail(modifiedMessage);
+        return modifiedMessage.toString();
     }
 
     public static String removeIDs(String message){
