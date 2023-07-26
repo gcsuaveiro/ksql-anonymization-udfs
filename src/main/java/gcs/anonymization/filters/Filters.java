@@ -46,12 +46,12 @@ public class Filters {
         String regex;
         String user,mail;
         boolean hasMail = true;
-        if (message.contains("checkpoint-beat-filebeat")){
+        if (message.contains("dst_user_name")){
             regex =  "dst_user_name:\\\\\"[^\\\\\"]*";
         }
         //catch-all
         else {
-            regex = "";
+            return message;
         }
 
         Pattern pattern = Pattern.compile(regex);
@@ -91,6 +91,77 @@ public class Filters {
         }
         return message;
     }
+
+public static String removeUserNames_Test(String message,String field_name){
+        // find the username
+        // data_stream.dataset ---> GENERIC
+        String regex;
+        String user="",mail="";
+        boolean twoPart = false;
+        if (message.contains("usrName")){
+            regex =  field_name+"=(.*?)\\\\t";
+        }
+        else if (message.contains("dst_user_name")){
+            regex =  field_name+"=(.*?)\\\\t";
+        }
+        //catch-all
+        else {
+            return message;
+        }
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(message);
+
+        if (matcher.find()) {
+            System.out.println("FOUND");
+
+            String content = matcher.group(0);
+            System.out.println(content);
+
+            content=content.split(field_name+"=")[1];
+
+            if(content.contains("(")) {
+                System.out.println("Has two parts");
+                twoPart = true;
+
+                user = content.split(" \\(")[0].replaceAll("\\\\t", "");
+                mail = content.split(" \\(")[1].replaceFirst("\\)", "").replaceAll("\\\\t", "");
+            }
+            else {
+                System.out.println("One part");
+                mail = content.replaceAll("\\\\t", "");
+                }
+
+
+
+            System.out.println("---");
+            System.out.println(user);
+            System.out.println(mail);
+        }
+        else{
+            return message; // nothing to do
+        }
+
+        String userHash = null;
+        String mailHash = null;
+
+        if (!mail.equals("")) {
+
+            mail = mail.split("@")[0]; // user@gmail.com becomes sddfg@gmail.com, still anonymized but can be seen it's an email
+            mailHash = hashThisString(mail);
+            message = message.replaceAll(mail,mailHash);
+        }
+        if (!user.equals("")){ // has user
+            if (!user.equals(mail)) {
+                user = user.split("@")[0]; // Just in case
+                userHash = hashThisString(user);
+                message = message.replaceAll(user,userHash);
+            }
+        }
+
+        return message;
+    }
+
 
     public static String hashThisString(String input)
     {
