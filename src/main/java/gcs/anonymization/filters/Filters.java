@@ -3,7 +3,6 @@ package gcs.anonymization.filters;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +10,7 @@ import static java.lang.System.exit;
 
 public class Filters {
     public static String removeIPs(String message){
-        // Doesn't catch ports -- Likely won't need to be removed.
+        // Doesn't catch ports -- Which likely won't need to be removed.
         String regex = "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b";
         String replacement = "x.x.x.x";
         StringBuilder modifiedMessage = new StringBuilder();
@@ -19,10 +18,10 @@ public class Filters {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
 
-        // This one removes by replacing with x.x.x.x
-       // return matcher.replaceAll(replacement);
+        // Uncomment to enable replacing with x.x.x.x
+        // return matcher.replaceAll(replacement);
 
-        // this one hashes them
+        // Otherwise they're hashed.
         while (matcher.find()) {
             String ipAddress = matcher.group();
             String hashedIP = hashThisString(ipAddress);
@@ -43,15 +42,13 @@ public class Filters {
     }
 
     public static String removeUserNames(String message){
-        // find the username
         String regex;
         String user,mail;
         boolean hasMail = true;
         if (message.contains("dst_user_name")){
             regex =  "dst_user_name:\\\\\"[^\\\\\"]*";
         }
-        //catch-all
-        else {
+        else {  //catch-all to avoid needless computing
             return message;
         }
 
@@ -66,14 +63,14 @@ public class Filters {
 
             user = content.split(" \\(")[0];
             mail = content.split(" \\(")[1].replaceFirst("\\)","");
-            System.out.println(user);
-            System.out.println(mail);
+            // System.out.println(user);
+            // System.out.println(mail);
         }
         else{
             return message; // nothing to do
         }
 
-        // ** Hash found values **
+        // ** Hash the found values **
         String userHash = hashThisString(user);
         String mailHash = null;
         if (user.equals(mail)){
@@ -140,9 +137,9 @@ public static String removeUserNames_v2(String message,String field_name){
                 mail = content.replaceAll("\\\\t", "");
             }
 
-            System.out.println("---");
-            System.out.println(user);
-            System.out.println(mail);
+            //System.out.println("---");
+            //System.out.println(user);
+            //System.out.println(mail);
         }
         else {
             return message; // nothing to do
@@ -189,16 +186,16 @@ public static String removeUserNames_v2(String message,String field_name){
         Matcher matcher = pattern.matcher(message);
 
         if (matcher.find()) {
-            System.out.println("FOUND");
+            //System.out.println("FOUND");
 
             String content = matcher.group(0);
-            System.out.println(content);
+            //System.out.println(content);
 
             content=content.split(field_name+"=")[1];
             target = content.replaceAll("\\\\t", "");
 
-            System.out.println("---");
-            System.out.println(target);
+            //System.out.println("---");
+            //System.out.println(target);
 
         } else {
                 return message; // nothing to do
@@ -251,7 +248,7 @@ public static String removeUserNames_v2(String message,String field_name){
             }
 
             // Print the hash value
-            System.out.println("SHA-3 Hash: " + hexString.toString());
+            //System.out.println("SHA-3 Hash: " + hexString.toString());
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

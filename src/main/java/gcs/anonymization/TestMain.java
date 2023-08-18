@@ -4,13 +4,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import gcs.anonymization.filters.Filters;
 
-import static java.lang.System.exit;
 
 public class TestMain {
     public static void main(String[] args) throws IOException {
