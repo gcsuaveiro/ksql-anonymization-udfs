@@ -3,6 +3,7 @@ package gcs.anonymization.filters;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,19 +93,26 @@ public class Filters {
         return message;
     }
 
-public static String removeUserNames_Test(String message,String field_name){
-        // find the username
-        // data_stream.dataset ---> GENERIC
+
+/*
+    This is an application of removeTargetContents specifically for username/email combinations
+    since these are the most common (and important) pieces of data to remove, with a specific structure that
+    is not always the same.
+
+    This filter covers the three following scenarios:
+    fieldName=<email>
+    fieldName=<username>
+    fieldName=<username> (<email>)
+ */
+
+public static String removeUserNames_v2(String message,String field_name){
+
         String regex;
         String user="",mail="";
         boolean twoPart = false;
-        if (message.contains("usrName")){
+        if (message.contains(field_name)){
             regex =  field_name+"=(.*?)\\\\t";
         }
-        else if (message.contains("dst_user_name")){
-            regex =  field_name+"=(.*?)\\\\t";
-        }
-        //catch-all
         else {
             return message;
         }
@@ -118,7 +126,7 @@ public static String removeUserNames_Test(String message,String field_name){
             String content = matcher.group(0);
             System.out.println(content);
 
-            content=content.split(field_name+"=")[1];
+            content=content.split("=")[1];
 
             if(content.contains("(")) {
                 System.out.println("Has two parts");
@@ -130,15 +138,13 @@ public static String removeUserNames_Test(String message,String field_name){
             else {
                 System.out.println("One part");
                 mail = content.replaceAll("\\\\t", "");
-                }
-
-
+            }
 
             System.out.println("---");
             System.out.println(user);
             System.out.println(mail);
         }
-        else{
+        else {
             return message; // nothing to do
         }
 
@@ -151,18 +157,77 @@ public static String removeUserNames_Test(String message,String field_name){
             mailHash = hashThisString(mail);
             message = message.replaceAll(mail,mailHash);
         }
-        if (!user.equals("")){ // has user
+        if (!user.equals(""))  // has user
             if (!user.equals(mail)) {
                 user = user.split("@")[0]; // Just in case
                 userHash = hashThisString(user);
                 message = message.replaceAll(user,userHash);
             }
+
+
+        return message;
+    }
+
+    /*
+        This will remove the contents of a given field in the ENTIRE message
+        if there is person_name="john secure" then all instances of "john secure"
+        will be removed from the message.
+    */
+
+    public static String removeFieldContents(String message,String field_name){
+        // Filter doesn't apply.
+        if(!message.contains(field_name)){
+            return message;
+        }
+
+        String regex;
+        String target = "";
+       // regex = "\\\\t"+field_name + "=(.*?)\\\\t"; // Can't handle edge cases (first or last field in message)
+        regex = "(\\\\t|\\|)("+field_name+"=(.*?))(\\\\t|$)";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(message);
+
+        if (matcher.find()) {
+            System.out.println("FOUND");
+
+            String content = matcher.group(0);
+            System.out.println(content);
+
+            content=content.split(field_name+"=")[1];
+            target = content.replaceAll("\\\\t", "");
+
+            System.out.println("---");
+            System.out.println(target);
+
+        } else {
+                return message; // nothing to do
+        }
+
+
+        String targetHash;
+
+        if (!target.equals("")) {
+            targetHash = hashThisString(target);
+            message = message.replaceAll(escapeString(target),targetHash);
+
         }
 
         return message;
     }
 
+// Needed for edge cases surrounding replaceAll() that make it fail silently.
+    public static String escapeString(String input){
+       String[] forbidden = {")","(",".","/"};
+       for (String ch : forbidden)
+            if(input.contains(ch)){
+                input = input.replaceAll("\\"+ch,"\\\\"+ch); // IMPORTANT: Bug in IntelliJ marks this as bug
+                                                                              // DO NOT "FIX". It is correct.
+            }
+       return input;
+    }
 
+    // string goes in, hash goes out
     public static String hashThisString(String input)
     {
         try {
