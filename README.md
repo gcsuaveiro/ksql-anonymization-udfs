@@ -1,6 +1,6 @@
 # ksql-anonymization-udfs
 
-This repository contains the dev environment for developing and testing UDFs that will be imported to KSQL for data anonymization.
+This repository contains the dev environment for developing and testing UDFs that will be imported to KSQL for data anonymization, as well as the UDFs themselves.
 
 ## How-To's
 ### How to build the UDF Jar?
