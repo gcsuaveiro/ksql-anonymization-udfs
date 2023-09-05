@@ -9,13 +9,13 @@ import io.confluent.ksql.function.udf.UdfParameter;
 import java.lang.String;
 
 @UdfDescription(name = "anonymize",
-        author = "example user",
-        version = "1.0.2",
-        description = "A custom formula for important business logic.")
+        author = "SARAI",
+        version = "0.0.1",
+        description = "Functions for SARAI data anonimization.")
 public class AnonymizeUdf {
 
-    @Udf(description = "The standard version of the formula with integer parameters.")
-    public String anonymize(@UdfParameter String inputUnfiltered) {
+    @Udf(description = "Anonimize data coming from the Firewall.")
+    public String anonymizeCheckpoint(@UdfParameter String inputUnfiltered) {
         // String aux = Filters.removeIPs(inputUnfiltered);
         // aux = Filters.removeIDs(aux);
         String aux = Filters.removeUserNames_v2(inputUnfiltered,"usrName");
@@ -28,7 +28,7 @@ public class AnonymizeUdf {
         return aux;
     }
 
-    @Udf(description = "A special variant of the formula, handling double parameters.")
+    @Udf(description = "TODO")
     public String anonymize(@UdfParameter String filebeatType, @UdfParameter String inputUnfiltered) {
         return "";
     }
