@@ -180,7 +180,8 @@ public static String removeUserNames_v2(String message,String field_name){
         String regex;
         String target = "";
        // regex = "\\\\t"+field_name + "=(.*?)\\\\t"; // Can't handle edge cases (first or last field in message)
-        regex = "(\\\\t|\\|)("+field_name+"=(.*?))(\\\\t|$)";
+       regex = "(\\\\t|\\|)("+field_name+"=(.*?))(\\\\t|$)";
+        //regex = "(\\t|\\|)("+field_name+"=(.*?))(\\t|$)";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
@@ -192,7 +193,7 @@ public static String removeUserNames_v2(String message,String field_name){
             System.out.println(content);
 
             content=content.split(field_name+"=")[1];
-            target = content.replaceAll("\\\\t", "");
+            target = content.replaceAll("\\t", "");
 
             System.out.println("---");
             System.out.println(target);
