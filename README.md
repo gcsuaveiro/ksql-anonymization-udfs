@@ -12,6 +12,7 @@ gradle shadowJar
 - Copy the Jar created above to helk's /docker/helk-ksql/udfs folder. 
 - build the docker image and push it to registry
 - edit new image on k8s-helk-ksql.yaml image and apply configuration
+
 It's needed to restart container to import created function to Ksql (Hot Reloading is NOT supported.)
 
 Local Testing: docker-compose up
