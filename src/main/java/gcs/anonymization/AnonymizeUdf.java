@@ -19,6 +19,10 @@ public class AnonymizeUdf {
         // String aux = Filters.removeIPs(inputUnfiltered);
         // aux = Filters.removeIDs(aux);
         String aux = Filters.removeUserNames_v2(inputUnfiltered,"usrName");
+        // Uncomment for final deployment
+        // aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_name");
+                    // aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_dn");
+
         return aux;
     }
 
