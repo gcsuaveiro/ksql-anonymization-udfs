@@ -189,13 +189,13 @@ public static String removeUserNames_v2(String message,String field_name){
             //System.out.println("FOUND");
 
             String content = matcher.group(0);
-            //System.out.println(content);
+            System.out.println(content);
 
             content=content.split(field_name+"=")[1];
             target = content.replaceAll("\\\\t", "");
 
-            //System.out.println("---");
-            //System.out.println(target);
+            System.out.println("---");
+            System.out.println(target);
 
         } else {
                 return message; // nothing to do
@@ -205,6 +205,8 @@ public static String removeUserNames_v2(String message,String field_name){
         String targetHash;
 
         if (!target.equals("")) {
+            System.out.println("hashing");
+
             targetHash = hashThisString(target);
             message = message.replaceAll(escapeString(target),targetHash);
 
@@ -215,7 +217,7 @@ public static String removeUserNames_v2(String message,String field_name){
 
 // Needed for edge cases surrounding replaceAll() that make it fail silently.
     public static String escapeString(String input){
-       String[] forbidden = {")","(",".","/"};
+       String[] forbidden = {")","(",".","/","+","*","?","^","$","[","]","{","}","|","-","&","%","#","@",";",":","="};
        for (String ch : forbidden)
             if(input.contains(ch)){
                 input = input.replaceAll("\\"+ch,"\\\\"+ch); // IMPORTANT: Bug in IntelliJ marks this as bug
