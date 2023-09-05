@@ -16,9 +16,9 @@ public class AnonymizeUdf {
 
     @Udf(description = "The standard version of the formula with integer parameters.")
     public String anonymize(@UdfParameter String inputUnfiltered) {
-        String aux = Filters.removeIPs(inputUnfiltered);
+        // String aux = Filters.removeIPs(inputUnfiltered);
         // aux = Filters.removeIDs(aux);
-        // aux = Filters.removeUserNames(aux);
+        String   aux = Filters.removeUserNames_v2(aux,"usrName");
         return aux;
     }
 
