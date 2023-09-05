@@ -15,7 +15,7 @@ import java.lang.String;
 public class AnonymizeUdf {
 
     @Udf(description = "Anonimize data coming from the Firewall.")
-    public String anonymizeCheckpoint(@UdfParameter String inputUnfiltered) {
+    public String anonymize(@UdfParameter String inputUnfiltered) {
         // String aux = Filters.removeIPs(inputUnfiltered);
         // aux = Filters.removeIDs(aux);
         String aux = Filters.removeUserNames_v2(inputUnfiltered,"usrName");
