@@ -11,7 +11,6 @@ import io.confluent.ksql.function.udf.UdfParameter;
         description = "Functions for SARAI data anonymization.")
 public class AnonymizeCheckpointUdf {
 
-
     @Udf(description = "Anonymize data coming from the Firewall.")
     public String anonymizeCheckpoint(@UdfParameter String inputUnfiltered) {
         String aux = "";

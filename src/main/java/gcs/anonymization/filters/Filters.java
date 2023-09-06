@@ -259,4 +259,49 @@ public static String removeUserNames_v2(String message,String field_name){
         }
         return "compiler stop complaining";
     }
+
+    public static String apache_SAMLFilter(String message){
+// Filter doesn't apply.
+        if(!message.contains("SAMLResponse")){
+            return message;
+        }
+
+        String regex;
+        String target = "";
+        // regex = "\\\\t"+field_name + "=(.*?)\\\\t"; // Can't handle edge cases (first or last field in message)
+        //regex = "(\\\\t|\\|)("+field_name+"=(.*?))(\\t|$)";
+        regex = "(\\?|\\%22\\%2C|\\&)(SAMLResponse(.*?))(&|$| )";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(message);
+
+        if (matcher.find()) {
+            //System.out.println("FOUND");
+
+            String content = matcher.group(0);
+            System.out.println(content);
+            content=content.split("SAMLResponse=")[1];
+            target = content.replaceAll("&", "");
+
+            System.out.println("---");
+            System.out.println(target);
+
+        } else {
+            return message; // nothing to do
+        }
+
+
+        String targetHash;
+
+        if (!target.equals("") && !target.equals("-")) {
+            System.out.println("hashing");
+
+            //targetHash = hashThisString(target);
+            message = message.replaceAll(escapeString(target),"REDACTED");
+
+
+        }
+
+        return message;
+    }
 }
