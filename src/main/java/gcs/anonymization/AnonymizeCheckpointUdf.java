@@ -15,10 +15,9 @@ public class AnonymizeCheckpointUdf {
     public String anonymizeCheckpoint(@UdfParameter String inputUnfiltered) {
         String aux = "";
         aux = Filters.removeUserNames_v2(inputUnfiltered,"usrName");
-        aux = Filters.removeUserNames_v2(aux,"src_user_name");
-        aux = Filters.removeUserNames_v2(aux,"src_user_dn");
-        aux = Filters.removeUserNames_v2(aux,"originsicname");
-
+        //aux = Filters.removeUserNames_v2(aux,"src_user_name");
+        //aux = Filters.removeUserNames_v2(aux,"src_user_dn");
+        //aux = Filters.removeUserNames_v2(aux,"originsicname");
         return aux;
     }
 
