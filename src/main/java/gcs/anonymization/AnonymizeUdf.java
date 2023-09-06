@@ -29,5 +29,15 @@ public class AnonymizeUdf {
          return aux;
     }
 
+    @Udf(description = "Anonymize data coming from the Firewall.")
+    public String anonymizeCheckpoint(@UdfParameter String inputUnfiltered) {
+        String aux = "";
+        aux = Filters.removeUserNames_v2(inputUnfiltered,"usrName");
+        aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_name");
+        aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_dn");
+        aux = Filters.removeUserNames_v2(inputUnfiltered,"originsicname");
+
+        return aux;
+    }
 
 }
