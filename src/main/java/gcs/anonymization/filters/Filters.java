@@ -108,7 +108,7 @@ public static String removeUserNames_v2(String message,String field_name){
         String user="",mail="";
         boolean twoPart = false;
         if (message.contains(field_name)){
-            regex =  field_name+"=(.*?)\\\\t";
+            regex =  field_name+"=(.*?)\\t";
         }
         else {
             return message;
@@ -129,12 +129,12 @@ public static String removeUserNames_v2(String message,String field_name){
                 System.out.println("Has two parts");
                 twoPart = true;
 
-                user = content.split(" \\(")[0].replaceAll("\\\\t", "");
-                mail = content.split(" \\(")[1].replaceFirst("\\)", "").replaceAll("\\\\t", "");
+                user = content.split(" \\(")[0].replaceAll("\\t", "");
+                mail = content.split(" \\(")[1].replaceFirst("\\)", "").replaceAll("\\t", "");
             }
             else {
                 System.out.println("One part");
-                mail = content.replaceAll("\\\\t", "");
+                mail = content.replaceAll("\\t", "");
             }
 
             //System.out.println("---");
