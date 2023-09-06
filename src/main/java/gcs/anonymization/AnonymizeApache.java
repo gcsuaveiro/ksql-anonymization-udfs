@@ -20,6 +20,7 @@ public class AnonymizeApache {
         String aux = Filters.apache_SAMLFilter(inputUnfiltered);
         aux = Filters.apache_removeFieldContents(aux,"sesskey");
         aux = Filters.apache_removeFieldContents(aux,"cachekey");
+        aux = Filters.apache_removeFieldContents(aux,"email");
 
         return aux;
     }
