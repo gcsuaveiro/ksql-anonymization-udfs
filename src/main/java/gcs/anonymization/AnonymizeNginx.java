@@ -14,7 +14,7 @@ import java.lang.String;
         description = "Functions for SARAI data anonymization.")
 public class AnonymizeNginx {
 
-    @Udf(description = "Anonymize data coming from the Firewall.")
+    @Udf(description = "Anonymize data coming from Nginx.")
     public String anonymizeNginx(@UdfParameter String inputUnfiltered) {
         // String aux = Filters.removeIPs(inputUnfiltered);
         // aux = Filters.removeIDs(aux);
