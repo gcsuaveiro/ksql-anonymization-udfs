@@ -181,7 +181,7 @@ public static String removeUserNames_v2(String message,String field_name){
         String target = "";
        // regex = "\\\\t"+field_name + "=(.*?)\\\\t"; // Can't handle edge cases (first or last field in message)
        //regex = "(\\\\t|\\|)("+field_name+"=(.*?))(\\t|$)";
-        regex = "(\\t|\\\\|)(cookie(.*?))(\\t|$)";
+        regex = "(\\t|\\\\t|\\\\\\\\|\\|)("+field_name+"(.*?))(\\t|$|\\\\t)";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(message);
@@ -191,7 +191,6 @@ public static String removeUserNames_v2(String message,String field_name){
 
             String content = matcher.group(0);
             System.out.println(content);
-
             content=content.split(field_name+"=")[1];
             target = content.replaceAll("\t", "");
 
@@ -205,7 +204,7 @@ public static String removeUserNames_v2(String message,String field_name){
 
         String targetHash;
 
-        if (!target.equals("")) {
+        if (!target.equals("") && !target.equals("-")) {
             System.out.println("hashing");
 
             targetHash = hashThisString(target);
