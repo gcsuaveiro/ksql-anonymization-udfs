@@ -20,11 +20,11 @@ public class AnonymizeUdf {
         // aux = Filters.removeIDs(aux);
         // String aux = Filters.removeUserNames_v2(inputUnfiltered,"usrName");
         String aux = Filters.removeFieldContents(inputUnfiltered,"cookie");
-        // Uncomment for final deployment
+        // Uncomment for final deployment (checkpoint filters)
         // aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_name");
-                    // aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_dn");
-                    // aux = Filters.removeUserNames_v2(inputUnfiltered,"originsicname");
-                    // aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_dn");
+        // aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_dn");
+        // aux = Filters.removeUserNames_v2(inputUnfiltered,"originsicname");
+        // aux = Filters.removeUserNames_v2(inputUnfiltered,"src_user_dn");
 
          return aux;
     }
