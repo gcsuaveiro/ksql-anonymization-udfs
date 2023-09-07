@@ -118,26 +118,26 @@ public static String removeUserNames_v2(String message,String field_name){
         Matcher matcher = pattern.matcher(message);
 
         if (matcher.find()) {
-            //System.out.println("FOUND");
+            System.out.println("FOUND");
 
             String content = matcher.group(0);
-            //System.out.println(content);
+            System.out.println(content);
 
             content=content.split("=")[1];
 
-            if(content.contains("(")) {
-                //System.out.println("Has two parts");
+            if(content.contains(" (")) {
+                System.out.println("Has two parts");
                 twoPart = true;
                 content = content.replaceAll("\t|\\t|\\\\t", "");
 
                 user = content.split(" \\(")[0];
-                mail = content.split(" \\(")[1].replaceFirst("\\)", "");
-                //System.out.println(user);
-                //System.out.println(mail);
+                mail = content.split(" \\(")[1].replaceFirst("\\) ", "");
+                System.out.println(user);
+                System.out.println(mail);
 
             }
             else {
-                //System.out.println("One part");
+                System.out.println("One part");
                 mail = content.replaceAll("\\t", "");
             }
 
@@ -157,6 +157,10 @@ public static String removeUserNames_v2(String message,String field_name){
             mail = mail.split("@")[0]; // user@gmail.com becomes sddfg@gmail.com, still anonymized but can be seen it's an email
             mailHash = hashThisString(mail);
             message = message.replaceAll(mail,mailHash);
+            System.out.println("after mail replace");
+            System.out.println(message);
+            System.out.println(mail);
+
         }
         if (!user.equals(""))  // has user
             if (!user.equals(mail)) {
