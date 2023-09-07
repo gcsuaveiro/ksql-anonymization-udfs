@@ -131,7 +131,7 @@ public static String removeUserNames_v2(String message,String field_name){
                 content = content.replaceAll("\t|\\t|\\\\t", "");
 
                 user = content.split(" \\(")[0];
-                mail = content.split(" \\(")[1].replaceFirst("\\) ", "");
+                mail = content.split(" \\(")[1].replaceAll("\\)", "").replaceAll("\\) ","").replaceAll(" $","");
                 System.out.println(user);
                 System.out.println(mail);
 
@@ -162,13 +162,12 @@ public static String removeUserNames_v2(String message,String field_name){
             System.out.println(mail);
 
         }
-        if (!user.equals(""))  // has user
-            if (!user.equals(mail)) {
-                user = user.split("@")[0]; // Just in case
-                userHash = hashThisString(user);
-                message = message.replaceAll(user,userHash);
-            }
+        if (!user.equals("")) {  // has user
+            user = user.split("@")[0]; // Just in case
+            userHash = hashThisString(user);
+            message = message.replaceAll(escapeString(user), userHash);
 
+        }
 
         return message;
     }
