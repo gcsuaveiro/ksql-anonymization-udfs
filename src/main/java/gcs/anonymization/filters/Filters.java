@@ -108,7 +108,7 @@ public static String removeUserNames_v2(String message,String field_name){
         String user="",mail="";
         boolean twoPart = false;
         if (message.contains(field_name)){
-            regex =  field_name+"=(.*?)\\t";
+            regex =  field_name+"=(.*?)(\\t|\\\\t)";
         }
         else {
             return message;
@@ -118,22 +118,26 @@ public static String removeUserNames_v2(String message,String field_name){
         Matcher matcher = pattern.matcher(message);
 
         if (matcher.find()) {
-            System.out.println("FOUND");
+            //System.out.println("FOUND");
 
             String content = matcher.group(0);
-            System.out.println(content);
+            //System.out.println(content);
 
             content=content.split("=")[1];
 
             if(content.contains("(")) {
-                System.out.println("Has two parts");
+                //System.out.println("Has two parts");
                 twoPart = true;
+                content = content.replaceAll("\t|\\t|\\\\t", "");
 
-                user = content.split(" \\(")[0].replaceAll("\\t", "");
-                mail = content.split(" \\(")[1].replaceFirst("\\)", "").replaceAll("\\t", "");
+                user = content.split(" \\(")[0];
+                mail = content.split(" \\(")[1].replaceFirst("\\)", "");
+                //System.out.println(user);
+                //System.out.println(mail);
+
             }
             else {
-                System.out.println("One part");
+                //System.out.println("One part");
                 mail = content.replaceAll("\\t", "");
             }
 
@@ -265,7 +269,7 @@ public static String removeUserNames_v2(String message,String field_name){
             return message;
         }
 
-        String regex = "(\\?|\\%22\\%2C|\\&)(SAMLResponse(.*?))(&|$| )";
+        String regex = "(\\?|\\%22\\%2C|\\&)(SAMLResponse(.*?)|SAMLRequest(.*?))(&|$| )";
         String target = "";
 
         Pattern pattern = Pattern.compile(regex);
